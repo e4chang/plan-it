@@ -7,9 +7,12 @@ passport.serializeUser(function(user, done) {
   done(null, user);
 });
 
-passport.deserializeUser(function(user, done) {
-  done(null, user);
+passport.deserializeUser(function(id, done) {
+  Users.findById(id, function(err, user) {
+    done(err, user);
+  });
 });
+
 // Login strategy
 passport.use('login', new LocalStrategy({
     passReqToCallback : true
@@ -52,19 +55,18 @@ passport.use('signup', new LocalStrategy({
         if (err){
           return done(err);
         }
+
         // already exists
         if (user) {
           console.log('User already exists');
           return done(null, false, { message: 'User already exists'});
         } else {
-
-          // if there is no user with that email
           // create the user
           var newUser = new Users();
-          // set the user's local credentials
+
+          // set the user's fields
           newUser.username = username;
           newUser.setPassword(password);
-          console.log(req.body.email);
           newUser.email = req.body.email;
           newUser.firstName = req.body.firstName;
           newUser.lastName = req.body.lastName;
