@@ -24,11 +24,25 @@ router.get('/login', function(req, res, next) {
 });
 
 /* POST login page. */
-router.post('/login', passport.authenticate('login', {
-  successRedirect: '/home',
-  failureRedirect: '/login',
-  failureFlash : false
-}));
+router.post('/login', (req, res, next) => {
+
+  return passport.authenticate('login', (err, token, userData) => {
+    if (err) {
+      return res.status(400).json({
+        success: false,
+        message: 'Error logging in.'
+      });
+    }
+
+
+    return res.json({
+      success: true,
+      message: 'You have successfully logged in!',
+      token,
+      user: userData
+    });
+  })(req, res, next);
+});
 
 /* GET registration page. */
 router.get('/signup', function(req, res){

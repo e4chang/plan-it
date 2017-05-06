@@ -1,3 +1,4 @@
+var jwt = require('jsonwebtoken');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
@@ -8,7 +9,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  Users.findById(id, function(err, user) {
+  Users.findById(id.username, function(err, user) {
     done(err, user);
   });
 });
@@ -34,9 +35,19 @@ passport.use('login', new LocalStrategy({
           return done(null, false, { message: 'Invalid username or password'});
         }
 
-        // Return successful login
-        return done(null, user);
+        // Create jwt token
+        const payload = {
+          sub: user._id
+        };
 
+        const token = jwt.sign(payload, process.env.JWT_SECRET_KEY);
+        const data = {
+          username: user.username
+        };
+
+        console.log(token);
+        // Return successful login
+        return done(null, token, data);
       }
     );
   }

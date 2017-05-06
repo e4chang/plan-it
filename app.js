@@ -16,7 +16,9 @@ require('./auth/passport');
 
 var app = express();
 
+
 // Configuring routes
+var auth = require('./auth/token');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
@@ -38,6 +40,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+app.use('/users', auth);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
