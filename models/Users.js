@@ -5,7 +5,7 @@ var UsersSchema = new mongoose.Schema({
   username: {type: String, lowercase: true, unique: true},
   hash: String,
   salt: String,
-  email: {type: String, default: 'huh'},
+  email: String,
   firstName: String,
   lastName: String
 });
