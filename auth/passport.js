@@ -1,17 +1,8 @@
+var jwt = require('jsonwebtoken');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 var Users = mongoose.model('Users');
-
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(id, done) {
-  Users.findById(id, function(err, user) {
-    done(err, user);
-  });
-});
 
 // Login strategy
 passport.use('login', new LocalStrategy({
@@ -34,9 +25,18 @@ passport.use('login', new LocalStrategy({
           return done(null, false, { message: 'Invalid username or password'});
         }
 
-        // Return successful login
-        return done(null, user);
+        // Create jwt token
+        const payload = {
+          sub: user._id
+        };
+        const token = jwt.sign(payload, process.env.JWT_SECRET_KEY);
+        const data = {
+          username: user.username
+        };
 
+        console.log(token);
+        // Return successful login
+        return done(null, token, data);
       }
     );
   }
@@ -73,12 +73,26 @@ passport.use('signup', new LocalStrategy({
 
           // save the user
           newUser.save(function(err) {
+
             if (err){
               console.log('Error in Saving user: '+err);
               throw err;
             }
+
             console.log('User Registration succesful');
-            return done(null, newUser);
+
+            // Create jwt token
+            const payload = {
+              sub: newUser._id
+            };
+            const token = jwt.sign(payload, process.env.JWT_SECRET_KEY);
+            const data = {
+              username: username
+            };
+
+            console.log(token);
+            // Return successful login
+            return done(null, token, data);
           });
         }
       });
