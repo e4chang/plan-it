@@ -8,6 +8,7 @@ import {
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import StepOne from "./pages/CreateTrip";
 
 class App extends Component {
   render() {
@@ -20,6 +21,7 @@ class App extends Component {
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="/login">Login</Link></li>
                 <li><Link to="/register">Register</Link></li>
+                <li><Link to="/create">Create</Link></li>
               </ul>
             </div>
           </nav>
@@ -27,6 +29,7 @@ class App extends Component {
           <Route exact path="/" component={Home}/>
           <Route path="/login" component={Login}/>
           <Route path="/register" component={Register}/>
+          <Route path="/create" component={StepOne}/>
         </div>
       </Router>
     );
