@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import {
   BrowserRouter as Router,
   Route,
@@ -15,13 +14,15 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/login">Login</Link></li>
-            <li><Link to="/register">Register</Link></li>
-          </ul>
-
-          <hr/>
+          <nav className="uk-navbar-container" uk-navbar>
+            <div className="uk-navbar-left">
+              <ul className="uk-navbar-nav">
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/login">Login</Link></li>
+                <li><Link to="/register">Register</Link></li>
+              </ul>
+            </div>
+          </nav>
 
           <Route exact path="/" component={Home}/>
           <Route path="/login" component={Login}/>

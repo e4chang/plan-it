@@ -1,28 +1,25 @@
 import React, { Component } from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom';
+
+import CardTemplate from './components/CardTemplate';
 
 class Login extends Component {
+  handleSubmit() {
+    alert('To be implemented.');
+  }
   render() {
     return (
-      <div className="Form">
-        <h2>Login</h2>
-        <form>
-          <label> Username:
-            <input type="text" name="username" />
-          </label>
+      <CardTemplate>
+        <form onSubmit={this.handleSubmit}>
+          <h2>Login</h2>
+          <label> Username: </label>
+          <input type="text" className="uk-input" name="username" />
           <br/>
-          <label> Password:
-            <input type="text" name="password" />
-          </label>
-          <br/>
-          <input type="submit" value="Submit" />
+          <label> Password: </label>
+          <input type="text" className="uk-input" name="password" />
+          <label><br/></label>
+          <input type="submit" className="uk-input" value="Submit" />
         </form>
-
-      </div>
+      </CardTemplate>
     )
   }
 }
